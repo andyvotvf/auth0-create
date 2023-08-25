@@ -1,13 +1,18 @@
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useNavigate } from 'react-router-dom';
-function App() { 
-  const navigate = useNavigate()
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+function App() {
+  const [isCreator, setIsCreator] = useState(false);
+  const navigate = useNavigate();
   const { loginWithRedirect, isAuthenticated } = useAuth0();
-  if(isAuthenticated){
-    navigate('/register')
+  if (isAuthenticated || isCreator) {
+    navigate("/register");
+  } 
+  if(isAuthenticated && !isCreator){ 
+    navigate("/user");
   }
 
   return (
@@ -23,10 +28,20 @@ function App() {
       <h1>Creator Management</h1>
       <div className="card">
         <h3>Are you a content creator?</h3>
-        <button onClick={() => loginWithRedirect()}>
-        Yes
+        <button
+          onClick={() => {
+            setIsCreator(true);
+            loginWithRedirect();
+          }}
+        >
+          Yes
         </button>
-        <button onClick={() => loginWithRedirect()}>
+        <button
+          onClick={() => {
+            setIsCreator(false);
+            loginWithRedirect();
+          }}
+        >
           No
         </button>
       </div>
@@ -34,7 +49,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
