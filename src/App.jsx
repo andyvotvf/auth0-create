@@ -7,7 +7,7 @@ function App() {
   const isCreator = localStorage.getItem("isCreator");
   const navigate = useNavigate();
   const { loginWithRedirect, isAuthenticated } = useAuth0();
-  if (isAuthenticated || isCreator) {
+  if (isAuthenticated && isCreator) {
     navigate("/register");
   } 
   if(isAuthenticated && !isCreator){ 
