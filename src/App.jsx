@@ -3,9 +3,8 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 function App() {
-  const [isCreator, setIsCreator] = useState(false);
+  const isCreator = localStorage.getItem("isCreator");
   const navigate = useNavigate();
   const { loginWithRedirect, isAuthenticated } = useAuth0();
   if (isAuthenticated || isCreator) {
@@ -30,7 +29,7 @@ function App() {
         <h3>Are you a content creator?</h3>
         <button
           onClick={() => {
-            setIsCreator(true);
+            localStorage.setItem("isCreator", true);
             loginWithRedirect();
           }}
         >
@@ -38,7 +37,7 @@ function App() {
         </button>
         <button
           onClick={() => {
-            setIsCreator(false);
+            localStorage.setItem("isCreator", false);
             loginWithRedirect();
           }}
         >
